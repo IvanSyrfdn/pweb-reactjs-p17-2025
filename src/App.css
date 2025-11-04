@@ -1,5 +1,9 @@
 @import "tailwindcss";
+/* src/index.css */
 
+/* src/index.css */
+
+@tailwind utilities;
 #root {
   max-width: 1280px;
   margin: 0 auto;
