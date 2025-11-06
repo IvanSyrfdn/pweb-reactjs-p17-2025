@@ -4,6 +4,15 @@
 | Ivan Syarifuddin            | 5027241045 |
 | Muhammad Khosyi Syehab      | 5027241089 |
 
-Masih belom responsif dll baru tampilan kecil buat login ama register
+### FrontEnd 
 
-hmm
+```
+npm install
+npm run dev
+```
+
+### BackEnd
+
+```
+node index.js
+```
