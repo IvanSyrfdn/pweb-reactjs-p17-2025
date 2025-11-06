@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "title": "Buku React untuk Pemula",
+    "writer": "Han Solo",
+    "publisher": "Penerbit IT-Lit",
+    "price": 150000,
+    "stock": 20,
+    "genre": {
+      "id": 1,
+      "name": "Programming"
+    },
+    "condition": "Baru",
+    "publication_year": 2024,
+    "description": "Buku panduan lengkap React."
+  },
+  {
+    "id": 2,
+    "title": "Node.js di Balik Layar",
+    "writer": "Leia Organa",
+    "publisher": "Penerbit IT-Lit",
+    "price": 145000,
+    "stock": 15,
+    "genre": {
+      "id": 1,
+      "name": "Programming"
+    },
+    "condition": "Baru",
+    "publication_year": 2023,
+    "description": "Memahami cara kerja Node.js."
+  }
+]

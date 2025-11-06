@@ -1,0 +1,21 @@
+// backend/index.js
+
+import express from 'express';
+import cors from 'cors';
+import authRoutes from './authRoutes.js';
+import bookRoutes from './bookRoutes.js'; // <-- 1. TAMBAHKAN IMPORT INI
+
+const app = express();
+const port = 3000;
+
+app.use(cors());
+app.use(express.json());
+
+// --- Routes ---
+app.use('/api/auth', authRoutes);
+app.use('/api/books', bookRoutes); // <-- 2. TAMBAHKAN BARIS INI
+
+app.listen(port, () => {
+    console.log(`🚀 Server Backend berjalan di http://localhost:${port}`);
+    console.log('Server ini siap menerima data dari Frontend React Anda.');
+});

@@ -31,5 +31,18 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.45.0",
     "vite": "^7.1.7"
-  }
+  },
+  "description": "| Nama                        | NRP        |\r | --------------------------- | ---------- |\r | Hansen Chang                | 5027241028 |\r | Ivan Syarifuddin            | 5027241045 |\r | Muhammad Khosyi Syehab      | 5027241089 |",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IvanSyrfdn/pweb-reactjs-p17-2025.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IvanSyrfdn/pweb-reactjs-p17-2025/issues"
+  },
+  "homepage": "https://github.com/IvanSyrfdn/pweb-reactjs-p17-2025#readme"
 }
