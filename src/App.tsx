@@ -1,28 +1,36 @@
-import { Routes, Route } from "react-router-dom";
+// src/App.tsx
+import { Routes, Route, Link } from "react-router-dom";
 
-// Impor komponen autentikasi yang SUDAH kita buat
+// Impor komponen autentikasi
 import Login from "./pages/Login";
 import Register from "./pages/register";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-// --- Placeholder untuk Halaman Utama ---
-// Kita buat placeholder di sini karena BooksList.tsx belum ada.
-// Ini akan jadi halaman "selamat datang" setelah login.
-const HomePlaceholder = () => {
+// --- Impor Halaman Baru Kita ---
+import BooksListPage from "./pages/BookListPage";
+import BookDetailPage from "./pages/BookDetailPage";
+import AddBookPage from "./pages/AddBookPage";
+import CartPage from "./pages/CartPage";
+import TransactionsPage from "./pages/TransactionPage";
+import TransactionDetailPage from "./pages/TransactionDetailPage";
+
+// Komponen helper untuk membungkus halaman dengan Navbar
+// Ini adalah cara yang Anda gunakan di App.tsx dan ini sudah bagus.
+const ProtectedLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <h1 className="text-2xl font-bold">Selamat Datang!</h1>
-      <p className="mt-2 text-gray-700">
-        Anda berhasil login dan Rute Terproteksi (ProtectedRoute) berfungsi.
-      </p>
-      <p className="mt-1 text-gray-700">
-        Selanjutnya, kita akan mengganti halaman ini dengan `BooksList.tsx` (Daftar Buku).
-      </p>
-    </div>
+    <ProtectedRoute>
+      <Navbar />
+      {/* Container 'main' ini membantu memberi padding dan membatasi lebar konten 
+        agar tidak menempel di Navbar atau tepi layar.
+      */}
+      <main className="max-w-7xl mx-auto px-4 py-6">
+        {children}
+      </main>
+    </ProtectedRoute>
   );
 };
-// ----------------------------------------
+
 
 export default function App() {
   return (
@@ -34,47 +42,46 @@ export default function App() {
 
       {/* --- 2. Rute Terproteksi --- */}
       {/* Halaman yang HANYA bisa diakses setelah login.
-        Dibungkus dengan <ProtectedRoute> 
-        dan menampilkan <Navbar> + konten halaman.
+        Dibungkus dengan <ProtectedLayout> 
+        yang sudah berisi <ProtectedRoute> dan <Navbar>.
       */}
+
+      {/* Manajemen Buku */}
       <Route
-        path="/" // Ini adalah halaman utama (Daftar Buku)
-        element={
-          <ProtectedRoute>
-            <>
-              <Navbar /> {/* Navbar akan selalu tampil di sini */}
-              <HomePlaceholder /> {/* Konten halaman (saat ini placeholder) */}
-            </>
-          </ProtectedRoute>
-        }
+        path="/" // Halaman utama (Daftar Buku)
+        element={<ProtectedLayout><BooksListPage /></ProtectedLayout>}
       />
-      
-      {/* NANTI, kamu akan tambahkan rute terproteksi lain di sini:
-        
-        <Route
-          path="/books/:id"
-          element={
-            <ProtectedRoute>
-              <> <Navbar /> <BookDetail /> </>
-            </ProtectedRoute>
-          }
+      <Route
+        path="/books/:id" // Detail Buku (Dynamic route)
+        element={<ProtectedLayout><BookDetailPage /></ProtectedLayout>}
+      />
+      <Route
+        path="/add-book" // Tambah Buku
+        element={<ProtectedLayout><AddBookPage /></ProtectedLayout>}
+      />
+
+      {/* Transaksi */}
+      <Route
+        path="/cart" // Keranjang / Halaman Checkout
+        element={<ProtectedLayout><CartPage /></ProtectedLayout>}
+      />
+      <Route
+        path="/transactions" // List Riwayat Transaksi
+        element={<ProtectedLayout><TransactionsPage /></ProtectedLayout>}
+      />
+      <Route
+        path="/transactions/:id" // Detail Transaksi (Dynamic route)
+        element={<ProtectedLayout><TransactionDetailPage /></ProtectedLayout>}
         />
-        
-        <Route
-          path="/transactions"
-          element={
-            <ProtectedRoute>
-              <> <Navbar /> <TransactionsList /> </>
-            </TProtectedRoute>
-          }
-        />
-        ...dan seterusnya
-      */}
 
       {/* --- 3. Rute 404 (Opsional tapi disarankan) --- */}
       <Route path="*" element={
-        <div className="flex justify-center items-center min-h-screen">
-          <h1 className="text-3xl font-bold">404: Halaman Tidak Ditemukan</h1>
+        <div className="flex flex-col justify-center items-center min-h-screen text-white">
+          <h1 className="text-6xl font-bold">404</h1>
+          <p className="text-2xl mt-4">Halaman Tidak Ditemukan</p>
+          <Link to="/" className="mt-6 px-4 py-2 bg-blue-600 rounded-md hover:bg-blue-700">
+            Kembali ke Beranda
+          </Link>
         </div>
       } />
     </Routes>

@@ -1,9 +1,9 @@
+// src/pages/register.tsx
 import { useState } from "react";
 import type { FormEvent } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom" 
+import { useNavigate, Link } from "react-router-dom"
 
-// Tentukan tipe data untuk respons API
 interface RegisterResponse {
   token: string;
   user: {
@@ -13,44 +13,36 @@ interface RegisterResponse {
 }
 
 function Register() {
-  // --- States ---
-  const [name, setName] = useState(""); // Field tambahan untuk register
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
-  // State untuk UX (Loading & Error) [cite: Soal Praktikum Modul 4 - Pemrograman Web 2025.pdf]
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
 
-  // --- Handlers ---
   const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault(); // Mencegah reload halaman [cite: README (1).md]
+    event.preventDefault();
     setError(null);
 
-    // Validasi form sisi client [cite: Soal Praktikum Modul 4 - Pemrograman Web 2025.pdf]
     if (!name || !email || !password) {
       setError("Semua field tidak boleh kosong.");
       return;
     }
-    
     if (!/\S+@\S+\.\S+/.test(email)) {
       setError("Format email tidak valid.");
       return;
     }
-
-    if (password.length < 6) { // Contoh validasi tambahan
+    if (password.length < 6) {
       setError("Password minimal harus 6 karakter.");
       return;
     }
 
-    setLoading(true); // Tampilkan loading state [cite: Soal Praktikum Modul 4 - Pemrograman Web 2025.pdf]
+    setLoading(true);
 
     try {
-      // Panggil API Register
+      // GANTI INI dengan URL API Anda
       const response = await axios.post<RegisterResponse>(
-        "URL_API_REGISTER_KAMU", // <-- GANTI INI
+        "http://localhost:3000/api/auth/register", // <-- PASTIKAN URL INI BENAR
         {
           name: name,
           email: email,
@@ -58,18 +50,15 @@ function Register() {
         }
       );
 
-      // Simpan token ke local storage [cite: Soal Praktikum Modul 4 - Pemrograman Web 2025.pdf]
       const token = response.data.token;
-      const userEmail = response.data.user.email; // Ambil email dari respons
-      
-      localStorage.setItem("authToken", token);
-      localStorage.setItem("userEmail", userEmail); // Simpan email untuk Navbar
+      const userEmail = response.data.user.email;
 
-      // Arahkan ke halaman daftar buku [cite: Soal Praktikum Modul 4 - Pemrograman Web 2025.pdf]
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("userEmail", userEmail);
+
       navigate("/");
 
     } catch (err) {
-      // Tampilkan error state [cite: Soal Praktikum Modul 4 - Pemrograman Web 2025.pdf]
       if (axios.isAxiosError(err)) {
         setError(err.response?.data?.message || "Registrasi gagal. Email mungkin sudah terdaftar.");
       } else {
@@ -77,108 +66,89 @@ function Register() {
       }
       console.error("Register error:", err);
     } finally {
-      setLoading(false); // Sembunyikan loading state [cite: Soal Praktikum Modul 4 - Pemrograman Web 2025.pdf]
+      setLoading(false);
     }
   };
 
-  // --- Render ---
   return (
-    // Perbaikan Layout: Wrapper full-screen agar form di tengah
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      
+    // Container utama (Style sama dengan Login)
+    <div className="flex justify-center items-center min-h-screen bg-gray-900 text-gray-200 sm:p-4">
+
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm p-8 bg-white shadow-lg rounded-xl"
+        // Style Form (Style sama dengan Login)
+        className="w-full h-screen flex flex-col justify-center 
+                   sm:h-auto sm:w-full sm:max-w-md 
+                   p-8 sm:p-10 bg-gray-800 sm:rounded-xl shadow-lg"
       >
-        <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
+        <h2 className="text-3xl font-bold mb-6 text-center text-white">
           Buat Akun Baru
         </h2>
 
-        {/* Conditional Rendering untuk Error State [cite: README (1).md] */}
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+          <div className="bg-red-200 border border-red-500 text-red-800 px-4 py-3 rounded mb-4" role="alert">
             <span className="block sm:inline">{error}</span>
           </div>
         )}
 
-        {/* --- Form Input --- */}
         <div className="mb-4">
-          <label 
-            htmlFor="name" 
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
+          <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">
             Nama Lengkap
           </label>
           <input
-            type="text"
-            id="name"
-            value={name}
+            type="text" id="name" value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-700 rounded-lg bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Nama Kamu"
             disabled={loading}
           />
         </div>
 
         <div className="mb-4">
-          <label 
-            htmlFor="email" 
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
+          <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">
             Email
           </label>
           <input
-            type="email"
-            id="email"
-            value={email}
+            type="email" id="email" value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-700 rounded-lg bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="email@contoh.com"
             disabled={loading}
           />
         </div>
-        
+
         <div className="mb-6">
-          <label 
-            htmlFor="password" 
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
+          <label htmlFor="password" className="block text-sm font-medium text-gray-400 mb-2">
             Password
           </label>
           <input
-            type="password"
-            id="password"
-            value={password}
+            type="password" id="password" value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-700 rounded-lg bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="••••••••"
             disabled={loading}
           />
         </div>
 
-        {/* --- Tombol Submit --- */}
         <button
           type="submit"
-          className={`w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors ${
-            loading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className={`w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors ${loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           disabled={loading}
         >
           {loading ? "Mendaftar..." : "Register"}
         </button>
-        
-        {/* --- Link ke Login --- */}
-        <p className="text-center text-sm text-gray-600 mt-6">
+
+        <p className="text-center text-sm text-gray-400 mt-6">
           Sudah punya akun?{" "}
-          <Link to="/login" className="text-blue-600 hover:underline font-medium">
+          <Link to="/login" className="text-blue-400 hover:underline font-medium">
             Login di sini
           </Link>
         </p>
       </form>
 
-    </div> // Penutup div container layout
+    </div>
   );
 }
 
 export default Register;
-

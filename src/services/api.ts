@@ -1,3 +1,4 @@
+// src/services/api.ts
 import axios, { AxiosError } from 'axios';
 import type {
   Book,
@@ -6,8 +7,9 @@ import type {
   CreateTransactionRequest,
   PaginatedResponse,
   ApiError
-} from './types';
+} from './types'; // Pastikan path ini benar
 
+// GANTI INI dengan URL API backend Anda (dari Modul 3)
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
 
 const api = axios.create({
@@ -19,31 +21,35 @@ const api = axios.create({
 
 // Interceptor untuk menambahkan token ke setiap request
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+  // Gunakan 'authToken' sesuai dengan yang Anda simpan di Login.tsx
+  const token = localStorage.getItem('authToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
-// Interceptor untuk handle error
+// Interceptor untuk handle error 401 (Unauthorized)
 api.interceptors.response.use(
   (response) => response,
   (error: AxiosError<ApiError>) => {
+    // Jika token tidak valid / expired
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      localStorage.removeItem('authToken'); // Hapus token yang salah
+      localStorage.removeItem('userEmail'); // Hapus juga email
+      alert("Sesi Anda telah berakhir. Silakan login kembali.");
+      window.location.href = '/login'; // Paksa reload ke /login
     }
     return Promise.reject(error);
   }
 );
 
-// Book API
+// === Book API ===
 export const bookApi = {
   getAll: async (params?: {
     search?: string;
     condition?: string;
-    sort?: string;
+    sort?: string; // misal: 'title:asc' atau 'publish_date:desc'
     page?: number;
     limit?: number;
   }) => {
@@ -51,27 +57,28 @@ export const bookApi = {
     return response.data;
   },
 
-  getById: async (id: number) => {
+  getById: async (id: number | string) => {
     const response = await api.get<Book>(`/books/${id}`);
     return response.data;
   },
 
+  // 'data' bisa jadi FormData jika Anda upload gambar
   create: async (data: Partial<Book>) => {
     const response = await api.post<Book>('/books', data);
     return response.data;
   },
 
-  update: async (id: number, data: Partial<Book>) => {
+  update: async (id: number | string, data: Partial<Book>) => {
     const response = await api.put<Book>(`/books/${id}`, data);
     return response.data;
   },
 
-  delete: async (id: number) => {
+  delete: async (id: number | string) => {
     await api.delete(`/books/${id}`);
   },
 };
 
-// Genre API
+// === Genre API ===
 export const genreApi = {
   getAll: async () => {
     const response = await api.get<Genre[]>('/genres');
@@ -79,11 +86,11 @@ export const genreApi = {
   },
 };
 
-// Transaction API
+// === Transaction API ===
 export const transactionApi = {
   getAll: async (params?: {
-    search?: string;
-    sort?: string;
+    search?: string; // search by id
+    sort?: string; // order by id, amount, price
     page?: number;
     limit?: number;
   }) => {
@@ -91,7 +98,7 @@ export const transactionApi = {
     return response.data;
   },
 
-  getById: async (id: number) => {
+  getById: async (id: number | string) => {
     const response = await api.get<Transaction>(`/transactions/${id}`);
     return response.data;
   },
@@ -103,42 +110,3 @@ export const transactionApi = {
 };
 
 export default api;
-
-export const bookApi = {
-  getAll: async (params?: {
-    search?: string;
-    condition?: string;
-    sort?: string;
-    page?: number;
-    limit?: number;
-  }) => {
-    const response = await api.get<PaginatedResponse<Book>>('/books', { params });
-    return response.data;
-  },
-
-  getById: async (id: number) => {
-    const response = await api.get<Book>(`/books/${id}`);
-    return response.data;
-  },
-
-  create: async (data: Partial<Book>) => {
-    const response = await api.post<Book>('/books', data);
-    return response.data;
-  },
-
-  update: async (id: number, data: Partial<Book>) => {
-    const response = await api.put<Book>(`/books/${id}`, data);
-    return response.data;
-  },
-
-  delete: async (id: number) => {
-    await api.delete(`/books/${id}`);
-  },
-};
-
-export const genreApi = {
-  getAll: async () => {
-    const response = await api.get<Genre[]>('/genres');
-    return response.data;
-  },
-};

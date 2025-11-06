@@ -1,14 +1,17 @@
+// src/main.tsx
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
-import './index.css' // Pastikan file CSS/Tailwind kamu diimpor di sini
-import { BrowserRouter } from 'react-router-dom' // Impor BrowserRouter [cite: README (1).md]
+import './index.css'
+import { BrowserRouter } from 'react-router-dom'
+import { CartProvider } from './contexts/CartContext' // <-- 1. Impor Provider
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    {/* Bungkus <App /> dengan <BrowserRouter> [cite: README (1).md] */}
     <BrowserRouter>
-      <App />
+      <CartProvider> {/* <-- 2. Bungkus App dengan CartProvider */}
+        <App />
+      </CartProvider>
     </BrowserRouter>
   </React.StrictMode>,
 )
