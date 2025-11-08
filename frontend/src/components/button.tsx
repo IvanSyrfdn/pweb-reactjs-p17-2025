@@ -19,21 +19,21 @@ const Button: React.FC<ButtonProps> = ({
     variant = 'primary',
     className = '',
 }) => {
-    const base = 'font-semibold py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
+    const base = 'font-semibold py-2 px-4 rounded-lg transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm';
 
     let variantStyle = '';
-    switch (variant) {
-        case 'danger':
-            variantStyle = 'bg-red-600 text-white hover:bg-red-700';
-            break;
-        case 'secondary':
-            variantStyle = 'bg-gray-700 text-white hover:bg-gray-600';
-            break;
-        case 'primary':
-        default:
-            // Use warm/amber accent for dark theme
-            variantStyle = 'bg-amber-400 text-black hover:bg-amber-300';
-            break;
+        switch (variant) {
+            case 'danger':
+                variantStyle = 'bg-red-600 text-white hover:bg-red-700 focus:ring-2 focus:ring-red-400/60 hover:shadow-red-400/30';
+                break;
+            case 'secondary':
+                variantStyle = 'bg-gray-700 text-white hover:bg-gray-600 focus:ring-2 focus:ring-amber-400/40 hover:shadow-amber-400/10';
+                break;
+            case 'primary':
+            default:
+                // Blue primary for better contrast
+                variantStyle = 'bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white hover:from-[#60a5fa] hover:to-[#1e40af] focus:ring-2 focus:ring-blue-400/50 hover:shadow-blue-400/30';
+                break;
     }
 
     return (

@@ -181,9 +181,9 @@ const AddBookPage: React.FC = () => {
                 {/* Image URL + preview */}
                 <div className="mb-6">
                     <label className="block text-gray-400 text-sm font-bold mb-2" htmlFor="imageUrl">Cover Image (opsional)</label>
-                    <input id="file" type="file" accept="image/*" onChange={handleFileChange} className="w-full text-sm text-gray-300 mb-2" />
+                    
                     {isUploading && <div className="text-sm text-gray-300 mb-2">Mengunggah gambar...</div>}
-                    <div className="mb-2">atau masukkan URL gambar:</div>
+                    <div className="mb-2">Masukkan URL gambar:</div>
                     <input id="imageUrl" type="url" value={imageUrl} onChange={e => { setImageUrl(e.target.value); setImagePreview(e.target.value || null); }} placeholder="https://example.com/cover.jpg" className="w-full p-3 border border-gray-700 rounded bg-gray-900 text-white" />
                     {imagePreview && (
                         <div className="mt-3">

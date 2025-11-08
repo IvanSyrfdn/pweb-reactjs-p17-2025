@@ -45,7 +45,7 @@ function Navbar() {
           <div className="flex">
             <div className="shrink-0 flex items-center">
               <Link to="/" className="text-2xl font-bold text-amber-300">
-                IT-Lit
+                P17 Library
               </Link>
             </div>
 
