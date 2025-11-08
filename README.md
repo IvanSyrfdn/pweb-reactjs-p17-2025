@@ -4,15 +4,22 @@
 | Ivan Syarifuddin            | 5027241045 |
 | Muhammad Khosyi Syehab      | 5027241089 |
 
-### FrontEnd 
+## How to Start
+
+### 1. BackEnd
+
+```
+npm install
+npm start
+```
+
+### 2. FrontEnd
+> (di terminal yang berbeda)
 
 ```
 npm install
 npm run dev
 ```
 
-### BackEnd
 
-```
-node index.js
-```
+
