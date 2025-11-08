@@ -12,7 +12,8 @@
     },
     "condition": "Baru",
     "publication_year": 2024,
-    "description": "Buku panduan lengkap React."
+    "description": "Buku panduan lengkap React.",
+    "image_url": "https://picsum.photos/id/100/400/560"
   },
   {
     "id": 2,
@@ -27,6 +28,141 @@
     },
     "condition": "Baru",
     "publication_year": 2023,
-    "description": "Memahami cara kerja Node.js."
+    "description": "Memahami cara kerja Node.js.",
+    "image_url": "https://picsum.photos/id/101/400/560"
+  },
+  {
+    "id": 3,
+    "title": "Desain UI Modern",
+    "writer": "A. Designer",
+    "publisher": "Creative Press",
+    "price": 120000,
+    "stock": 12,
+    "genre": { "id": 2, "name": "Design" },
+    "condition": "Baru",
+    "publication_year": 2022,
+    "description": "Panduan praktis mendesain antarmuka pengguna modern.",
+    "image_url": "https://picsum.photos/id/102/400/560"
+  },
+  {
+    "id": 4,
+    "title": "Strategi Bisnis 101",
+    "writer": "John Business",
+    "publisher": "BizBooks",
+    "price": 175000,
+    "stock": 8,
+    "genre": { "id": 3, "name": "Business" },
+    "condition": "Baru",
+    "publication_year": 2021,
+    "description": "Dasar-dasar strategi dan model bisnis untuk startup.",
+    "image_url": "https://picsum.photos/id/103/400/560"
+  },
+  {
+    "id": 5,
+    "title": "Novel Petualangan",
+    "writer": "F. Story",
+    "publisher": "Fiction House",
+    "price": 90000,
+    "stock": 30,
+    "genre": { "id": 4, "name": "Fiction" },
+    "condition": "Baru",
+    "publication_year": 2019,
+    "description": "Novel petualangan yang seru dan menyentuh.",
+    "image_url": "https://picsum.photos/id/104/400/560"
+  },
+  {
+    "id": 6,
+    "title": "Metode Pengajaran Efektif",
+    "writer": "Dr. Guru",
+    "publisher": "EduPress",
+    "price": 110000,
+    "stock": 5,
+    "genre": { "id": 5, "name": "Education" },
+    "condition": "Baru",
+    "publication_year": 2020,
+    "description": "Metode dan praktik pendidikan yang terbukti efektif.",
+    "image_url": "https://picsum.photos/id/105/400/560"
+  },
+  {
+    "id": 7,
+    "title": "Sejarah Dunia Singkat",
+    "writer": "Historian",
+    "publisher": "History Pub",
+    "price": 130000,
+    "stock": 14,
+    "genre": { "id": 6, "name": "History" },
+    "condition": "Baru",
+    "publication_year": 2018,
+    "description": "Ringkasan sejarah dunia untuk pembaca umum.",
+    "image_url": "https://picsum.photos/id/106/400/560"
+  },
+  {
+    "id": 8,
+    "title": "Dasar-Dasar Fisika",
+    "writer": "Dr. Science",
+    "publisher": "ScienceLab",
+    "price": 160000,
+    "stock": 7,
+    "genre": { "id": 7, "name": "Science" },
+    "condition": "Baru",
+    "publication_year": 2020,
+    "description": "Konsep fundamental fisika untuk mahasiswa.",
+    "image_url": "https://picsum.photos/id/107/400/560"
+  },
+  {
+    "id": 9,
+    "title": "Kumpulan Seni Lukis",
+    "writer": "Artist",
+    "publisher": "ArtHouse",
+    "price": 200000,
+    "stock": 4,
+    "genre": { "id": 8, "name": "Art" },
+    "condition": "Baru",
+    "publication_year": 2017,
+    "description": "Katalog karya-karya lukisan kontemporer.",
+    "image_url": "https://picsum.photos/id/108/400/560"
+  },
+  {
+    "id": 10,
+    "title": "Cerita Anak-Anak",
+    "writer": "Kids Author",
+    "publisher": "KidsPub",
+    "price": 60000,
+    "stock": 25,
+    "genre": { "id": 9, "name": "Children" },
+    "condition": "Baru",
+    "publication_year": 2022,
+    "description": "Kumpulan cerita ringan untuk anak-anak.",
+    "image_url": "https://picsum.photos/id/109/400/560"
+  },
+  {
+    "id": 11,
+    "title": "Pemrograman Lanjut",
+    "writer": "Senior Dev",
+    "publisher": "IT-Lit",
+    "price": 210000,
+    "stock": 6,
+    "genre": { "id": 1, "name": "Programming" },
+    "condition": "Baru",
+    "publication_year": 2025,
+    "description": "Materi tingkat lanjut untuk developer berpengalaman.",
+    "image_url": "https://picsum.photos/id/110/400/560"
+  }
+  ,
+  {
+    "id": 1762569920577,
+    "title": "How to be Hatma",
+    "writer": "IT Dev",
+    "price": 200,
+    "stock": 20,
+    "genre": {
+      "id": 1,
+      "name": "Programming"
+    },
+    "image_url": null,
+    "condition": "Baru",
+    "publisher": "IT Dev",
+    "publication_year": 2025,
+    "description": "Hatma Kawai ne~~~~"
   }
 ]

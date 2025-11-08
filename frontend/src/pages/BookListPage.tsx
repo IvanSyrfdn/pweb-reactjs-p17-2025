@@ -37,6 +37,8 @@ const BooksListPage: React.FC = () => {
     // States untuk Fitur
     const [search, setSearch] = useState('');
     const [condition, setCondition] = useState(''); // 'Baru' atau 'Bekas'
+    const [genreId, setGenreId] = useState<string | number>('');
+    const [genres, setGenres] = useState<Array<{id:number,name:string,count?:number}>>([]);
     const [sort, setSort] = useState('title:asc');
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -49,6 +51,7 @@ const BooksListPage: React.FC = () => {
             const params = {
                 search: search || undefined,
                 condition: condition || undefined,
+                genreId: genreId || undefined,
                 sort,
                 page,
                 limit,
@@ -61,7 +64,20 @@ const BooksListPage: React.FC = () => {
         } finally {
             setIsLoading(false);
         }
-    }, [search, condition, sort, page, limit]);
+    }, [search, condition, sort, page, limit, genreId]);
+
+    // Fetch genres for sidebar
+    useEffect(() => {
+        const fetchGenres = async () => {
+            try {
+                const g = await (await fetch('/api/genres')).json();
+                setGenres(g);
+            } catch (e) {
+                // ignore
+            }
+        };
+        fetchGenres();
+    }, []);
 
     useEffect(() => {
         fetchBooks();
@@ -107,7 +123,7 @@ const BooksListPage: React.FC = () => {
                 </div>
 
             {/* Kontrol Filter, Search, Sort */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-gray-800 shadow rounded-lg">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-gray-800 shadow rounded-lg">
                 <input
                     type="text"
                     placeholder="Cari judul atau penulis..."
@@ -156,27 +172,50 @@ const BooksListPage: React.FC = () => {
             {!isLoading && !error && books.length > 0 && (
                 <>
                     {/* List Buku (Grid) */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                        {books.map((book) => (
-                            <div key={book.id} className="flex flex-col gap-3">
-                                <Card
-                                    title={book.title}
-                                    subtitle={book.genre?.name}
-                                    price={book.price}
-                                    image={(book as any).image_url || null}
-                                >
-                                    <div className="text-sm text-gray-400">{book.writer}</div>
-                                    <div className="mt-2 text-sm text-gray-500">Stok: {book.stock} • {book.condition}</div>
-                                </Card>
-
-                                <div className="flex gap-2">
-                                    <Link to={`/books/${book.id}`} className="flex-1">
-                                        <Button variant="secondary" className="w-full">Detail</Button>
-                                    </Link>
-                                    <Button variant="danger" onClick={() => handleDelete(book.id)} className="w-full">Hapus</Button>
-                                </div>
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                        {/* Sidebar genres */}
+                        <aside className="hidden md:block md:col-span-1">
+                            <div className="bg-gray-800 rounded-lg p-4 sticky top-24">
+                                <h4 className="text-sm font-semibold text-gray-200 mb-3">Kategori</h4>
+                                <ul className="space-y-2">
+                                    <li>
+                                        <button onClick={() => { setGenreId(''); setPage(1); }} className={`w-full text-left px-3 py-2 rounded ${genreId === '' ? 'bg-gray-700 text-amber-300' : 'text-gray-300 hover:bg-gray-700'}`}>Semua Kategori</button>
+                                    </li>
+                                    {genres.map(g => (
+                                        <li key={g.id}>
+                                            <button onClick={() => { setGenreId(g.id); setPage(1); }} className={`w-full text-left px-3 py-2 rounded ${String(genreId) === String(g.id) ? 'bg-gray-700 text-amber-300' : 'text-gray-300 hover:bg-gray-700'}`}>
+                                                {g.name} <span className="text-sm text-gray-500">({g.count})</span>
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
-                        ))}
+                        </aside>
+
+                        <main className="md:col-span-3">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                                {books.map((book) => (
+                                    <div key={book.id} className="flex flex-col gap-3">
+                                        <Card
+                                            title={book.title}
+                                            subtitle={book.genre?.name}
+                                            price={book.price}
+                                            image={(book as any).image_url || null}
+                                        >
+                                            <div className="text-sm text-gray-400">{book.writer}</div>
+                                            <div className="mt-2 text-sm text-gray-500">Stok: {book.stock} • {book.condition}</div>
+                                        </Card>
+
+                                        <div className="flex gap-2">
+                                            <Link to={`/books/${book.id}`} className="flex-1">
+                                                <Button variant="secondary" className="w-full">Detail</Button>
+                                            </Link>
+                                            <Button variant="danger" onClick={() => handleDelete(book.id)} className="w-full">Hapus</Button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </main>
                     </div>
 
                     {/* Pagination */}

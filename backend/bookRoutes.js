@@ -78,7 +78,7 @@ loadBooks();
 router.get('/', (req, res) => {
     console.log('Menerima permintaan GET /api/books');
 
-    const { search, condition, sort, page = 1, limit = 8 } = req.query;
+        const { search, condition, sort, page = 1, limit = 8, genreId } = req.query;
 
     let filteredBooks = [...books];
 
@@ -93,6 +93,12 @@ router.get('/', (req, res) => {
     // 2. Filter (Kondisi)
     if (condition) {
         filteredBooks = filteredBooks.filter(book => book.condition === condition);
+    }
+
+    // 2.b Filter by genreId (optional)
+    if (genreId) {
+        const gid = parseInt(genreId);
+        filteredBooks = filteredBooks.filter(book => book.genre && book.genre.id === gid);
     }
 
     // 3. Sort

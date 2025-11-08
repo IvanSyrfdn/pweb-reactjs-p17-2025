@@ -25,6 +25,7 @@ export interface Book {
     publication_year?: number;
     description?: string;
     isbn?: string;
+    image_url?: string | null;
 }
 
 // Tipe untuk respons paginasi (untuk list buku/transaksi)

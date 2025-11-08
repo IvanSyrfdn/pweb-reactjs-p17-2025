@@ -62,27 +62,39 @@ const BookDetailPage: React.FC = () => {
             </button>
 
             <div className="bg-gray-900 shadow-lg rounded-lg p-6">
-                <h1 className="text-4xl font-bold mb-4 text-white">{book.title}</h1>
-                <p className="text-xl text-gray-400 mb-2">oleh {book.writer}</p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="col-span-1">
+                        {book.image_url ? (
+                            <img src={book.image_url} alt={book.title} className="w-full h-72 object-cover rounded" />
+                        ) : (
+                            <div className="w-full h-72 bg-gray-800 rounded flex items-center justify-center text-gray-500">No image</div>
+                        )}
+                    </div>
 
-                <p className="text-2xl font-semibold text-amber-400 mb-4">
-                    Rp {book.price.toLocaleString('id-ID')}
-                </p>
+                    <div className="md:col-span-2">
+                        <h1 className="text-4xl font-bold mb-4 text-white">{book.title}</h1>
+                        <p className="text-xl text-gray-400 mb-2">oleh {book.writer}</p>
 
-                {/* Info Detail */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 text-gray-300">
-                    <p><strong>Penerbit:</strong> {book.publisher || '-'}</p>
-                    <p><strong>Tahun Terbit:</strong> {book.publication_year || '-'}</p>
-                    <p><strong>Genre:</strong> {book.genre.name}</p>
-                    <p><strong>Kondisi:</strong> {book.condition || '-'}</p>
-                    <p><strong>Stok:</strong> {book.stock} pcs</p>
-                    <p><strong>ISBN:</strong> {book.isbn || '-'}</p>
+                        <p className="text-2xl font-semibold text-amber-400 mb-4">
+                            Rp {book.price.toLocaleString('id-ID')}
+                        </p>
+
+                        {/* Info Detail */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 text-gray-300">
+                            <p><strong>Penerbit:</strong> {book.publisher || '-'}</p>
+                            <p><strong>Tahun Terbit:</strong> {book.publication_year || '-'}</p>
+                            <p><strong>Genre:</strong> {book.genre?.name}</p>
+                            <p><strong>Kondisi:</strong> {book.condition || '-'}</p>
+                            <p><strong>Stok:</strong> {book.stock} pcs</p>
+                            <p><strong>ISBN:</strong> {book.isbn || '-'}</p>
+                        </div>
+
+                        <p className="text-gray-300 mb-6">
+                            <strong>Deskripsi:</strong><br />
+                            {book.description || 'Tidak ada deskripsi.'}
+                        </p>
+                    </div>
                 </div>
-
-                <p className="text-gray-300 mb-6">
-                    <strong>Deskripsi:</strong><br />
-                    {book.description || 'Tidak ada deskripsi.'}
-                </p>
 
                 {/* Aksi: Tambah ke Keranjang */}
                 <div className="flex items-center gap-4 border-t border-gray-800 pt-6">
