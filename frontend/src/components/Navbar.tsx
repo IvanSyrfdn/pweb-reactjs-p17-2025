@@ -37,14 +37,14 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50"> {/* Dibuat sticky */}
+    <nav className="bg-gray-900 shadow-md sticky top-0 z-50"> {/* Dibuat sticky (dark) */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
 
           {/* Bagian Kiri */}
           <div className="flex">
             <div className="shrink-0 flex items-center">
-              <Link to="/" className="text-2xl font-bold text-blue-600">
+              <Link to="/" className="text-2xl font-bold text-amber-300">
                 IT-Lit
               </Link>
             </div>
@@ -54,8 +54,8 @@ function Navbar() {
                 to="/"
                 className={({ isActive }) =>
                   `inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${isActive
-                    ? "border-blue-500 text-gray-900"
-                    : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                    ? "border-amber-400 text-amber-300"
+                    : "border-transparent text-gray-300 hover:border-gray-700 hover:text-white"
                   }`
                 }
                 end // 'end' penting untuk root path
@@ -67,8 +67,8 @@ function Navbar() {
                 to="/transactions"
                 className={({ isActive }) =>
                   `inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${isActive
-                    ? "border-blue-500 text-gray-900"
-                    : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                    ? "border-amber-400 text-amber-300"
+                    : "border-transparent text-gray-300 hover:border-gray-700 hover:text-white"
                   }`
                 }
               >
@@ -82,7 +82,7 @@ function Navbar() {
             {/* 3. TOMBOL KERANJANG BARU (DESKTOP) */}
             <NavLink
               to="/cart"
-              className="relative p-2 text-gray-600 hover:text-blue-600 mr-4"
+              className="relative p-2 text-gray-300 hover:text-white mr-4"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -95,13 +95,13 @@ function Navbar() {
             </NavLink>
 
             {userEmail && (
-              <span className="text-gray-700 text-sm mr-4">
+              <span className="text-gray-300 text-sm mr-4">
                 Halo, {userEmail}
               </span>
             )}
             <button
               onClick={handleLogout}
-              className="bg-red-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-600 transition-colors"
+              className="bg-red-600 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-red-700 transition-colors"
             >
               Logout
             </button>
@@ -143,32 +143,32 @@ function Navbar() {
         <div className="pt-2 pb-3 space-y-1">
           <NavLink
             to="/"
-            className={({ isActive }) => `block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${isActive ? "bg-blue-50 border-blue-500 text-blue-700" : "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"}`}
+            className={({ isActive }) => `block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${isActive ? "bg-gray-800 border-amber-400 text-amber-300" : "border-transparent text-gray-300 hover:bg-gray-800 hover:border-gray-700 hover:text-white"}`}
             end
           >
             Daftar Buku
           </NavLink>
           <NavLink
             to="/transactions"
-            className={({ isActive }) => `block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${isActive ? "bg-blue-50 border-blue-500 text-blue-700" : "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"}`}
+            className={({ isActive }) => `block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${isActive ? "bg-gray-800 border-amber-400 text-amber-300" : "border-transparent text-gray-300 hover:bg-gray-800 hover:border-gray-700 hover:text-white"}`}
           >
             Transaksi
           </NavLink>
         </div>
 
-        <div className="pt-4 pb-3 border-t border-gray-200">
+  <div className="pt-4 pb-3 border-t border-gray-800">
           {userEmail && (
             <div className="flex items-center px-4">
               <div className="ml-3">
-                <div className="text-base font-medium text-gray-800">Halo,</div>
-                <div className="text-sm font-medium text-gray-500">{userEmail}</div>
+                <div className="text-base font-medium text-gray-200">Halo,</div>
+                <div className="text-sm font-medium text-gray-400">{userEmail}</div>
               </div>
             </div>
           )}
           <div className="mt-3 space-y-1">
             <button
               onClick={handleLogout}
-              className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+              className="block w-full text-left px-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800"
             >
               Logout
             </button>

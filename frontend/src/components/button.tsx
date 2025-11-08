@@ -1,14 +1,14 @@
 // src/components/button.tsx
 import React from 'react';
 
-// Tentukan tipe props untuk tombol
+// Button props
 type ButtonProps = {
     children: React.ReactNode;
     onClick?: () => void;
     type?: 'button' | 'submit' | 'reset';
     disabled?: boolean;
-    variant?: 'primary' | 'danger' | 'secondary'; // Varian untuk style
-    className?: string; // Untuk menambahkan style kustom
+    variant?: 'primary' | 'danger' | 'secondary';
+    className?: string;
 };
 
 const Button: React.FC<ButtonProps> = ({
@@ -19,31 +19,25 @@ const Button: React.FC<ButtonProps> = ({
     variant = 'primary',
     className = '',
 }) => {
-    // Style dasar tombol
-    const baseStyle = "font-bold py-2 px-4 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed";
+    const base = 'font-semibold py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
 
-    // Style berdasarkan varian
     let variantStyle = '';
     switch (variant) {
         case 'danger':
             variantStyle = 'bg-red-600 text-white hover:bg-red-700';
             break;
         case 'secondary':
-            variantStyle = 'bg-gray-600 text-white hover:bg-gray-500';
+            variantStyle = 'bg-gray-700 text-white hover:bg-gray-600';
             break;
         case 'primary':
         default:
-            variantStyle = 'bg-blue-600 text-white hover:bg-blue-700';
+            // Use warm/amber accent for dark theme
+            variantStyle = 'bg-amber-400 text-black hover:bg-amber-300';
             break;
     }
 
     return (
-        <button
-            type={type}
-            onClick={onClick}
-            disabled={disabled}
-            className={`${baseStyle} ${variantStyle} ${className}`}
-        >
+        <button type={type} onClick={onClick} disabled={disabled} className={`${base} ${variantStyle} ${className}`}>
             {children}
         </button>
     );

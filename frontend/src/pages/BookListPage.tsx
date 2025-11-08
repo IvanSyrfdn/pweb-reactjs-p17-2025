@@ -1,6 +1,8 @@
 // src/pages/BooksListPage.tsx
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import Card from '../components/card';
+import Button from '../components/button';
 import { bookApi } from '../services/api';
 import type { Book } from '../services/types';
 // CATATAN: Ganti komponen Loading/Error/Empty di bawah ini
@@ -78,16 +80,31 @@ const BooksListPage: React.FC = () => {
     };
 
     return (
-        <div className="container mx-auto">
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-3xl font-bold text-white">Katalog Buku</h1>
-                <Link
-                    to="/add-book"
-                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-                >
-                    + Tambah Buku
-                </Link>
-            </div>
+        <div className="container mx-auto px-4">
+                <div className="relative mb-8 rounded-lg overflow-hidden">
+                    <div className="bg-gradient-to-r from-gray-800 via-gray-900 to-black p-10 rounded-lg">
+                        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                            <div className="flex-1">
+                                <h1 className="text-5xl font-extrabold text-white leading-tight">Katalog Buku</h1>
+                                <p className="mt-2 text-gray-400">Temukan buku favoritmu — telusuri, lihat detail, dan kelola koleksi.</p>
+
+                                {/* Large search inside hero */}
+                                <div className="mt-6 max-w-2xl">
+                                    <div className="flex gap-3">
+                                        <input type="text" placeholder="Cari produk, judul, atau penulis..." value={search} onChange={(e)=>{setSearch(e.target.value); setPage(1);}} className="flex-1 p-3 rounded-md bg-gray-800 text-white border border-gray-700" />
+                                        <Button variant="primary">Cari</Button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex-shrink-0">
+                                <Link to="/add-book">
+                                    <Button variant="primary">+ Tambah Buku</Button>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             {/* Kontrol Filter, Search, Sort */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-gray-800 shadow rounded-lg">
@@ -139,34 +156,24 @@ const BooksListPage: React.FC = () => {
             {!isLoading && !error && books.length > 0 && (
                 <>
                     {/* List Buku (Grid) */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                         {books.map((book) => (
-                            <div key={book.id} className="bg-gray-800 shadow-lg rounded-lg overflow-hidden flex flex-col text-left">
-                                {/* <img src={book.image_url || '...'} alt={book.title} className="h-48 w-full object-cover" /> */}
-                                <div className="p-4 flex-grow">
-                                    <span className="text-sm text-blue-400">{book.genre.name}</span>
-                                    <h3 className="text-lg font-bold text-white truncate mt-1">
-                                        <Link to={`/books/${book.id}`} className="hover:text-blue-300">{book.title}</Link>
-                                    </h3>
-                                    <p className="text-sm text-gray-400">{book.writer}</p>
-                                    <p className="text-lg font-semibold text-blue-500 mt-2">
-                                        Rp {book.price.toLocaleString('id-ID')}
-                                    </p>
-                                    <p className="text-sm text-gray-500">Stok: {book.stock} | {book.condition}</p>
-                                </div>
-                                <div className="p-4 bg-gray-700 border-t border-gray-600 flex gap-2">
-                                    <Link
-                                        to={`/books/${book.id}`}
-                                        className="flex-1 text-center bg-gray-600 text-white px-3 py-1 rounded text-sm hover:bg-gray-500"
-                                    >
-                                        Detail
+                            <div key={book.id} className="flex flex-col gap-3">
+                                <Card
+                                    title={book.title}
+                                    subtitle={book.genre?.name}
+                                    price={book.price}
+                                    image={(book as any).image_url || null}
+                                >
+                                    <div className="text-sm text-gray-400">{book.writer}</div>
+                                    <div className="mt-2 text-sm text-gray-500">Stok: {book.stock} • {book.condition}</div>
+                                </Card>
+
+                                <div className="flex gap-2">
+                                    <Link to={`/books/${book.id}`} className="flex-1">
+                                        <Button variant="secondary" className="w-full">Detail</Button>
                                     </Link>
-                                    <button
-                                        onClick={() => handleDelete(book.id)}
-                                        className="flex-1 bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700"
-                                    >
-                                        Hapus
-                                    </button>
+                                    <Button variant="danger" onClick={() => handleDelete(book.id)} className="w-full">Hapus</Button>
                                 </div>
                             </div>
                         ))}

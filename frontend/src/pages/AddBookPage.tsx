@@ -1,5 +1,6 @@
 // src/pages/AddBookPage.tsx
 import React, { useState, useEffect, type FormEvent } from 'react';
+import Button from '../components/button';
 import { useNavigate } from 'react-router-dom';
 import { bookApi, genreApi } from '../services/api';
 import type { Genre } from '../services/types';
@@ -17,6 +18,8 @@ const AddBookPage: React.FC = () => {
     const [genreId, setGenreId] = useState(''); // Simpan ID genre
     const [condition, setCondition] = useState<'Baru' | 'Bekas'>('Baru');
     const [publication_year, setPublicationYear] = useState(new Date().getFullYear());
+    const [imageUrl, setImageUrl] = useState('');
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
 
     const [genres, setGenres] = useState<Genre[]>([]); // Untuk dropdown
     const [isLoading, setIsLoading] = useState(false);
@@ -60,6 +63,7 @@ const AddBookPage: React.FC = () => {
                 genreId: Number(genreId), // Pastikan jadi angka
                 condition,
                 publication_year,
+                image_url: imageUrl || undefined,
             };
 
             await bookApi.create(newBookData);
@@ -146,14 +150,20 @@ const AddBookPage: React.FC = () => {
                     <textarea id="description" value={description} onChange={e => setDescription(e.target.value)} rows={4} className="w-full p-3 border border-gray-700 rounded bg-gray-900 text-white"></textarea>
                 </div>
 
+                {/* Image URL + preview */}
+                <div className="mb-6">
+                    <label className="block text-gray-400 text-sm font-bold mb-2" htmlFor="imageUrl">Cover Image URL (opsional)</label>
+                    <input id="imageUrl" type="url" value={imageUrl} onChange={e => { setImageUrl(e.target.value); setImagePreview(e.target.value || null); }} placeholder="https://example.com/cover.jpg" className="w-full p-3 border border-gray-700 rounded bg-gray-900 text-white" />
+                    {imagePreview && (
+                        <div className="mt-3">
+                            <p className="text-sm text-gray-400 mb-2">Preview:</p>
+                            <img src={imagePreview} alt="preview" className="w-40 h-56 object-cover rounded shadow" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+                        </div>
+                    )}
+                </div>
+
                 <div className="flex items-center justify-end">
-                    <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline disabled:opacity-50"
-                    >
-                        {isLoading ? 'Menyimpan...' : 'Simpan Buku'}
-                    </button>
+                    <Button type="submit" variant="primary" disabled={isLoading}>{isLoading ? 'Menyimpan...' : 'Simpan Buku'}</Button>
                 </div>
             </form>
         </div>

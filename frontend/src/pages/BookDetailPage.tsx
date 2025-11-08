@@ -1,8 +1,7 @@
 // src/pages/BookDetailPage.tsx
-import Loading from '../components/loading'; // Sesuaikan nama jika beda
-import ErrorState from '../components/errorState'; // Sesuaikan nama jika beda
 import EmptyState from '../components/emptyState'; // Sesuaikan nama jika beda
 import React, { useState, useEffect } from 'react';
+import Button from '../components/button';
 import { useParams, useNavigate } from 'react-router-dom';
 import { bookApi } from '../services/api';
 import type { Book } from '../services/types';
@@ -57,16 +56,16 @@ const BookDetailPage: React.FC = () => {
     if (!book) return <EmptyState message="Buku tidak ditemukan." />;
 
     return (
-        <div className="container mx-auto max-w-4xl text-left">
-            <button onClick={() => navigate(-1)} className="mb-4 text-blue-400 hover:text-blue-300">
+        <div className="container mx-auto max-w-4xl text-left px-4">
+            <button onClick={() => navigate(-1)} className="mb-4 text-amber-300 hover:text-amber-200">
                 &laquo; Kembali ke daftar
             </button>
 
-            <div className="bg-gray-800 shadow-lg rounded-lg p-6">
+            <div className="bg-gray-900 shadow-lg rounded-lg p-6">
                 <h1 className="text-4xl font-bold mb-4 text-white">{book.title}</h1>
                 <p className="text-xl text-gray-400 mb-2">oleh {book.writer}</p>
 
-                <p className="text-2xl font-semibold text-blue-500 mb-4">
+                <p className="text-2xl font-semibold text-amber-400 mb-4">
                     Rp {book.price.toLocaleString('id-ID')}
                 </p>
 
@@ -86,7 +85,7 @@ const BookDetailPage: React.FC = () => {
                 </p>
 
                 {/* Aksi: Tambah ke Keranjang */}
-                <div className="flex items-center gap-4 border-t border-gray-700 pt-6">
+                <div className="flex items-center gap-4 border-t border-gray-800 pt-6">
                     <input
                         type="number"
                         value={quantity}
@@ -95,13 +94,9 @@ const BookDetailPage: React.FC = () => {
                         max={book.stock}
                         className="w-20 p-2 border border-gray-700 rounded bg-gray-900 text-white"
                     />
-                    <button
-                        onClick={handleAddToCart}
-                        disabled={book.stock === 0}
-                        className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 disabled:bg-gray-400"
-                    >
+                    <Button onClick={handleAddToCart} disabled={book.stock === 0} variant="primary">
                         {book.stock === 0 ? 'Stok Habis' : 'Tambah ke Keranjang'}
-                    </button>
+                    </Button>
                 </div>
             </div>
         </div>

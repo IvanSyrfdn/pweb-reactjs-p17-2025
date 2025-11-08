@@ -130,7 +130,7 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     console.log('Menerima permintaan POST /api/books');
     try {
-        const { title, writer, price, stock, genreId, condition, publisher, publication_year, description } = req.body;
+    const { title, writer, price, stock, genreId, condition, publisher, publication_year, description, image_url } = req.body;
 
         // (Validasi sederhana)
         if (!title || !writer || !price || !stock || !genreId) {
@@ -147,6 +147,7 @@ router.post('/', (req, res) => {
             price: Number(price),
             stock: Number(stock),
             genre: { id: Number(genreId), name: genreMap[genreId] || "Lainnya" },
+            image_url: image_url || null,
             condition,
             publisher,
             publication_year: Number(publication_year),
