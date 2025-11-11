@@ -206,5 +206,21 @@
     "publisher": "Ara 6000an",
     "publication_year": 1992,
     "description": "nigga khosyi nigga zein nigga jofanka nigga angga"
+  },
+  {
+    "id": 1762835210120,
+    "title": "How To Train your Ridho",
+    "writer": "Ridho",
+    "price": 200,
+    "stock": 200,
+    "genre": {
+      "id": 1,
+      "name": "Programming"
+    },
+    "image_url": "https://scholar.its.ac.id/files-asset/25677376/198702132014041001.JPEG/",
+    "condition": "Bekas",
+    "publisher": "Ridho Tbk.",
+    "publication_year": 2025,
+    "description": "How To Train your Ridho (Advanced)"
   }
 ]

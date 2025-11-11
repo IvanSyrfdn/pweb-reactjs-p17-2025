@@ -50,13 +50,15 @@ function Register() {
         }
       );
 
-      const token = response.data.token;
-      const userEmail = response.data.user.email;
+  const token = response.data.token;
+  const userEmail = response.data.user.email;
+  const userName = response.data.user.name || '';
 
-      localStorage.setItem("authToken", token);
-      localStorage.setItem("userEmail", userEmail);
+  localStorage.setItem("authToken", token);
+  localStorage.setItem("userEmail", userEmail);
+  if (userName) localStorage.setItem("userName", userName);
 
-      navigate("/");
+  navigate("/");
 
     } catch (err) {
       if (axios.isAxiosError(err)) {

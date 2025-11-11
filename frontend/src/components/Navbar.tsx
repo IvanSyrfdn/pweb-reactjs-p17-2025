@@ -5,15 +5,18 @@ import { useCart } from "../contexts/CartContext"; // 1. Impor useCart
 
 function Navbar() {
   const navigate = useNavigate();
-  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const { totalItems } = useCart(); // 2. Ambil total item dari keranjang
 
   useEffect(() => {
+    const name = localStorage.getItem("userName");
     const email = localStorage.getItem("userEmail");
-    if (email) {
-      setUserEmail(email);
+    if (name) {
+      setUserName(name);
+    } else if (email) {
+      setUserName(email);
     }
 
     // Fungsi ini akan berjalan saat user pindah halaman
@@ -21,12 +24,8 @@ function Navbar() {
       setIsMobileMenuOpen(false); // Tutup menu mobile
     };
 
-    // Ini adalah cara yang lebih baik untuk mendeteksi pindah halaman
-    // Jika Anda menggunakan React Router, cukup pantau 'navigate'
-    // tapi karena kita tidak punya 'location' di sini, kita pakai trik
-    // Mendaftarkan event listener (meskipun lebih baik memantau 'location')
-    // Untuk simplisitas, kita biarkan seperti kode Anda:
-    handleRouteChange(); // Panggil sekali saat mount
+    // Panggil sekali saat mount
+    handleRouteChange();
 
   }, [navigate]); // Pantau perubahan navigasi
 
@@ -44,14 +43,14 @@ function Navbar() {
           {/* Bagian Kiri */}
           <div className="flex">
             <div className="shrink-0 flex items-center">
-              <Link to="/" className="text-2xl font-bold text-amber-300">
+                <Link to="/books" className="text-2xl font-bold text-amber-300">
                 P17 Library
               </Link>
             </div>
 
             <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
-              <NavLink
-                to="/"
+                <NavLink
+                  to="/books"
                 className={({ isActive }) =>
                   `inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${isActive
                     ? "border-amber-400 text-amber-300"
@@ -94,9 +93,9 @@ function Navbar() {
               )}
             </NavLink>
 
-            {userEmail && (
+            {userName && (
               <span className="text-gray-300 text-sm mr-4">
-                Halo, {userEmail}
+                Halo, {userName}
               </span>
             )}
             <button
@@ -141,8 +140,8 @@ function Navbar() {
       {/* --- Dropdown Menu Mobile --- */}
       <div className={`sm:hidden ${isMobileMenuOpen ? 'block' : 'hidden'}`} id="mobile-menu">
         <div className="pt-2 pb-3 space-y-1">
-          <NavLink
-            to="/"
+              <NavLink
+                to="/books"
             className={({ isActive }) => `block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${isActive ? "bg-gray-800 border-amber-400 text-amber-300" : "border-transparent text-gray-300 hover:bg-gray-800 hover:border-gray-700 hover:text-white"}`}
             end
           >
@@ -157,11 +156,11 @@ function Navbar() {
         </div>
 
   <div className="pt-4 pb-3 border-t border-gray-800">
-          {userEmail && (
+          {userName && (
             <div className="flex items-center px-4">
               <div className="ml-3">
                 <div className="text-base font-medium text-gray-200">Halo,</div>
-                <div className="text-sm font-medium text-gray-400">{userEmail}</div>
+                <div className="text-sm font-medium text-gray-400">{userName}</div>
               </div>
             </div>
           )}

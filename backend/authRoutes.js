@@ -135,6 +135,7 @@ router.post('/login', async (req, res) => {
             token: token,
             user: {
                 email: user.email,
+                name: user.name,
             },
         });
 

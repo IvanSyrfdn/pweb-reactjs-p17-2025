@@ -10,5 +10,11 @@
     "name": "hai",
     "email": "han@gmail.com",
     "password": "$2b$10$O8otJu09hQgl4fGZ2Vxl8ekVA5YtFaZZpPbB7eezNLsmXJ2DlzZWW"
+  },
+  {
+    "id": 1762832144596,
+    "name": "kosi",
+    "email": "kosi@gmail.com",
+    "password": "$2b$10$.b3nKo5cBTc66sXVYLj9DOEHhBdNedWJppxPZQoVwU8n8Z1Mggcxu"
   }
 ]

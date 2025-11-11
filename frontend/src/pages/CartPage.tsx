@@ -54,7 +54,7 @@ const CartPage: React.FC = () => {
             {cartItems.length === 0 ? (
                 <div className="text-center p-10 bg-gray-800 shadow rounded-lg">
                     <p className="text-xl text-gray-400">Keranjang Anda kosong.</p>
-                    <Link to="/" className="text-blue-400 hover:underline mt-4 inline-block">
+                    <Link to="/books" className="text-blue-400 hover:underline mt-4 inline-block">
                         Mulai belanja
                     </Link>
                 </div>

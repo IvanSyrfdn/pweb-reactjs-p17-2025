@@ -1,5 +1,5 @@
 // src/App.tsx
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 // Layout
 import PublicLayout from "./layouts/PublicLayout";
@@ -13,39 +13,31 @@ import BookDetailPage from "./pages/BookDetailPage";
 import AddBookPage from "./pages/AddBookPage";
 import TransactionsPage from "./pages/TransactionPage";
 import TransactionDetailPage from "./pages/TransactionDetailPage";
+import CartPage from "./pages/CartPage";
 
 export default function App() {
   return (
     <Routes>
-      {/* ----------------- 🔐 Autentikasi ----------------- */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      {/* Public routes (login/register) */}
+      <Route element={<PublicLayout />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        {/* Default root -> redirect to /books */}
+        <Route path="/" element={<Navigate to="/books" replace />} />
+      </Route>
 
-      {/* ----------------- 📚 Manajemen Buku (bebas login) ----------------- */}
-      <Route
-        path="/"
-        element={<PublicLayout><BooksListPage /></PublicLayout>}
-      />
-      <Route
-        path="/books/:id"
-        element={<PublicLayout><BookDetailPage /></PublicLayout>}
-      />
-      <Route
-        path="/add-book"
-        element={<PublicLayout><AddBookPage /></PublicLayout>}
-      />
+      {/* Protected routes */}
+      <Route element={<ProtectedLayout />}>
+        <Route path="/books" element={<BooksListPage />} />
+        <Route path="/books/:id" element={<BookDetailPage />} />
+        <Route path="/add-book" element={<AddBookPage />} />
+  <Route path="/cart" element={<CartPage />} />
 
-      {/* ----------------- 💸 Transaksi (hanya login) ----------------- */}
-      <Route
-        path="/transactions"
-        element={<ProtectedLayout><TransactionsPage /></ProtectedLayout>}
-      />
-      <Route
-        path="/transactions/:id"
-        element={<ProtectedLayout><TransactionDetailPage /></ProtectedLayout>}
-      />
+        <Route path="/transactions" element={<TransactionsPage />} />
+        <Route path="/transactions/:id" element={<TransactionDetailPage />} />
+      </Route>
 
-      {/* ----------------- ❌ 404 Not Found ----------------- */}
+      {/* 404 */}
       <Route
         path="*"
         element={
@@ -55,13 +47,6 @@ export default function App() {
           </div>
         }
       />
-
-      {/* //---------------------------------------------------
-        // MODE OPSIONAL: Jika ingin langsung redirect ke halaman login
-        // tinggal UNCOMMENT baris di bawah ini.
-        // ---------------------------------------------------
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      */}
     </Routes>
   );
 }
